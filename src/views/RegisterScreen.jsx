@@ -61,33 +61,38 @@ const RegisterScreen = ({navigation}) => {
       <SafeAreaView Style={styles.container}>
         <View style={styles.body}>
         <View>
-          <Text>Registro de usuario</Text>
+          <Text style={styles.title}>Registro de usuario</Text>
         </View>
           <View>
+          <Text style={styles.body}> Nombre </Text>
             <View style={styles.contentInput}>
               <TextInput
               onChangeText={(value) => onChange(value, 'name')}
               value={name}
-              placeholder='Nombre' />
+              placeholder='Ingrese un nombre' />
             </View>
+            <Text style={styles.body}> Apellido </Text>
             <View style={styles.contentInput}>
               <TextInput 
               onChangeText={(value) => onChange(value, 'lastName')}
               value={lastName}
               placeholder='Apellido' />
             </View>
+            <Text style={styles.body}> Nombre de usuario </Text>
             <View style={styles.contentInput}>
               <TextInput 
               onChangeText={(value) => onChange(value, 'userName')}
               value={userName}
               placeholder='Nombre de Usuario' />
             </View>
+            <Text style={styles.body}> Correo Electronico </Text>
             <View style={styles.contentInput}>
               <TextInput 
               onChangeText={(value) => onChange(value, 'email')}
               value={email}
               placeholder='Correo Electronico' keyboardType='email-address' />
             </View>
+            <Text style={styles.body}> Contraseña </Text>
             <View style={styles.contentInput}>
               <TextInput 
               onChangeText={(value) => onChange(value, 'password')}
@@ -102,7 +107,7 @@ const RegisterScreen = ({navigation}) => {
                testID="dateTimePicker"
                value={date}
                mode='date'
-               dateFormat='year month day'
+               dateFormat='day moth year'
                display="spinner"
                onChange={onChangeDate}
                />
@@ -127,15 +132,15 @@ const RegisterScreen = ({navigation}) => {
               style={styles.button}
               onPress={onSignIn}
               >
-                <Text style={{ color:'white' ,fontWeight:'bold',textAlign:'center'}}> Registrar </Text>
+                <Text style={{ color:'white' ,fontWeight:'bold',fontSize:20,textAlign:'center'}}> Registrar </Text>
 
               </TouchableOpacity>
 
               <TouchableOpacity 
               onPress={irLogin}
-              style={styles.button}
+              style={styles.button2}
               >
-                <Text style={{ color:'white' ,fontWeight:'bold',textAlign:'center'}}> Login </Text>
+                <Text style={{ color:'white' ,fontWeight:'bold',fontSize:20,textAlign:'center'}}> Iniciar Sesión </Text>
 
               </TouchableOpacity>
               
@@ -148,15 +153,24 @@ const RegisterScreen = ({navigation}) => {
 };
 
 const styles= StyleSheet.create({
+  title:{
+    'textAlign':'center',
+    'fontSize': 20,
+    'fontWeight':'bold',
+    'marginVertical': 20,
+  },
   container:{
     flex: 1,
     marginTop: Platform.OS === 'android' ? 20 : 0,
   },
   body: {
+    textAlign:'center',
+    marginVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   contentInput: {
+    
     width: 350,
     height: 50,
     borderColor: Colors.gray2,
@@ -166,10 +180,17 @@ const styles= StyleSheet.create({
   },
   button:{
     'backgroundColor':'green',
-    'padding':4,
+    'padding':8,
     'marginHorizontal':20,
     'marginVertical': 20,
     'borderRadius': 10,
+},
+button2:{
+  'backgroundColor':'#00aae4',
+  'padding':8,
+  'marginHorizontal':20,
+  'marginVertical': 50,
+  'borderRadius': 10,
 },
 })
 
