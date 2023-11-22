@@ -1,6 +1,7 @@
-import React, {createContext, useReducer} from 'react';
+import React, {createContext, useReducer, useEffect} from 'react';
 import { authReducer } from './authReducer';
 import { userApi } from '../api/userApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 //estado inicial del contexto
@@ -15,10 +16,46 @@ const authInitalState ={
 // crear contexto
 export const AuthContext = createContext();
 
+
+
 // crear provider
 export const AuthProvider =({children}) =>{
 
     const [state, dispatch] =useReducer(authReducer, authInitalState);
+    
+    useEffect(() => {
+        checkToken();
+    },[])
+
+    const checkToken = async () => {
+
+        const token = await AsyncStorage.getItem('token');
+
+        // No token
+        if(!token) return dispatch({type: 'notAuthenticated'});
+
+        // Hay token
+        try {
+            const response = await userApi.get('/token/validate',{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.status !== 200) {
+                return dispatch({ type: 'notAuthenticated' });
+            }
+
+            dispatch({
+                type: 'signIn',
+                payload: {
+                    token: response.data.token,
+                    user: response.data.user,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const signUp = async ({name, lastName, userName, email, password, birthDate})=>{
         try {
@@ -62,10 +99,12 @@ export const AuthProvider =({children}) =>{
     }
 
     const logOut = async () => {
-        console.log('logout')
+        await AsyncStorage.removeItem('token');
         dispatch({
             type: 'logOut'
         })
+
+        
        
     }
 

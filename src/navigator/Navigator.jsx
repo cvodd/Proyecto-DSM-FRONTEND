@@ -6,6 +6,7 @@ import RegisterScreen from '../views/RegisterScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { HomeScreen } from '../views/HomeScreen'
 import { AuthContext } from '../context/AuthContext'
+import { BottomBarNavigator } from './BottomBarNavigator'
 
 const Stack= createNativeStackNavigator();
 
@@ -13,6 +14,10 @@ export const Navigator = () => {
 
   const {status} =useContext(AuthContext);  
 
+
+  if(status==='checking'){
+    return<LoginScreen/>
+  }
   return (
     <Stack.Navigator  
       screenOptions={{
@@ -30,7 +35,7 @@ export const Navigator = () => {
       )
       :( 
         <>
-        <Stack.Screen name="Home" component={HomeScreen}/>
+        <Stack.Screen name="BottomTab" component={BottomBarNavigator}/>
         </>
       )
       }
