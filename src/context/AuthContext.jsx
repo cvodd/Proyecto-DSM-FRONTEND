@@ -1,4 +1,4 @@
-import React, {createContext, useReducer, useEffect} from 'react';
+import React, {createContext, useReducer, useEffect, useState } from 'react';
 import { authReducer } from './authReducer';
 import { userApi } from '../api/userApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,6 +22,7 @@ export const AuthContext = createContext();
 export const AuthProvider =({children}) =>{
 
     const [state, dispatch] =useReducer(authReducer, authInitalState);
+    const [posts, setPosts] = useState([]);
     
     useEffect(() => {
         checkToken();
@@ -114,6 +115,20 @@ export const AuthProvider =({children}) =>{
          })
     }
 
+    const getPosts = async () => {
+        const token = await AsyncStorage.getItem('token');
+        try {
+            const { data } = await userApi.get('/posts', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            setPosts(data);
+        } catch (error) {
+            // console.log(error.response.data);
+        }
+    }
     return(
         <AuthContext.Provider
             value={{
@@ -122,7 +137,8 @@ export const AuthProvider =({children}) =>{
                 signUp,
                 logOut,
                 removeError,
-                
+                getPosts,
+                posts
             }}        
         >
             {children}
