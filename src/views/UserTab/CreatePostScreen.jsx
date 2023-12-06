@@ -98,7 +98,7 @@ const CreatePostScreen = () => {
     }*/
     onChange(uri,'pathPhoto')
     try {
-      const { data } = await userApi.post('/post', {title,description,pathPhoto,user_id,likesCount,comments}, {
+      const { data } = await userApi.post('/createPost', {title,description,pathPhoto,user_id,likesCount,comments}, {
         headers: {
           Authorization: `Bearer ${token}`
         }

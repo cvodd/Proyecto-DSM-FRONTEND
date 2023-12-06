@@ -27,6 +27,9 @@ export const AuthProvider =({children}) =>{
     useEffect(() => {
         checkToken();
     },[])
+    useEffect(() => {
+        getPosts();
+    }, []);
 
     const checkToken = async () => {
 
@@ -126,7 +129,7 @@ export const AuthProvider =({children}) =>{
 
             setPosts(data);
         } catch (error) {
-            // console.log(error.response.data);
+            console.log(error.response.data);
         }
     }
     return(
