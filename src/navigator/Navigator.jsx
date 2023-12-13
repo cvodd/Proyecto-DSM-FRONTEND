@@ -10,7 +10,7 @@ import { BottomBarNavigator } from './BottomBarNavigator'
 
 const Stack= createNativeStackNavigator();
 
-export const Navigator = () => {
+export const Navigator = () => {  
 
   const {status} =useContext(AuthContext);  
 

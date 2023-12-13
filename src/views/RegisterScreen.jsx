@@ -37,7 +37,7 @@ const RegisterScreen = ({navigation}) => {
     }
   }
   
-  
+  const statess='active';
   const irLogin = () => {
     navigation.navigate('Login')
   }
@@ -45,6 +45,9 @@ const RegisterScreen = ({navigation}) => {
   const {signUp} = useContext(AuthContext)
   const onSignIn = () => {
     Keyboard.dismiss();
+    
+ 
+    console.log(name, lastName, userName, email, password, birthDate)
     signUp({ name, lastName, userName, email, password, birthDate})
 }
  const {name, lastName, userName, email, password, birthDate,onChange}= useForm({
@@ -97,7 +100,7 @@ const RegisterScreen = ({navigation}) => {
               <TextInput 
               onChangeText={(value) => onChange(value, 'password')}
               value={password}
-              placeholder='Contraseña'  />
+              placeholder='Contraseña' keyboardType='visible-password' />
             </View>
             <View>
              <Text style={styles.body}>Fecha de nacimiento</Text>

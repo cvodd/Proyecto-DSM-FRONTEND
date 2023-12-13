@@ -23,6 +23,7 @@ export const AuthProvider =({children}) =>{
 
     const [state, dispatch] =useReducer(authReducer, authInitalState);
     const [posts, setPosts] = useState([]);
+    const [user,setUser] = useState(null);
     
     useEffect(() => {
         checkToken();
@@ -30,24 +31,26 @@ export const AuthProvider =({children}) =>{
     useEffect(() => {
         getPosts();
     }, []);
-
+     const getUser = () => {
+        console.log(user);
+        return user;
+     };
     const checkToken = async () => {
-
         const token = await AsyncStorage.getItem('token');
+        // console.log(token);
 
-        // No token
-        if(!token) return dispatch({type: 'notAuthenticated'});
+        // Si no hay token
+        if (!token) {
+            dispatch({ type: 'notAuthenticated' })
+        }
 
-        // Hay token
+        // Si hay token
         try {
-            const response = await userApi.get('/token/validate',{
-                headers:{
+            const response = await userApi.get('/token/validate', {
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if (response.status !== 200) {
-                return dispatch({ type: 'notAuthenticated' });
-            }
 
             dispatch({
                 type: 'signIn',
@@ -56,14 +59,17 @@ export const AuthProvider =({children}) =>{
                     user: response.data.user,
                 },
             });
+
         } catch (error) {
-            console.log(error);
+            if(error.response.status === 401){
+                dispatch({ type: 'notAuthenticated' });
+            }
         }
     }
 
     const signUp = async ({name, lastName, userName, email, password, birthDate})=>{
         try {
-            const { data } = await userApi.post('/register', { name, lastName, userName, email, password, birthDate });
+            const { data } = await userApi.post('/register', { name, lastName, userName, email, password, birthDate});
             console.log(data.user);
             dispatch({
                 type: 'signUp',
@@ -77,6 +83,7 @@ export const AuthProvider =({children}) =>{
             await AsyncStorage.setItem('token', response.data.token);
 
         } catch (error) {
+        ;
             console.log(error.response.data.errors)
             dispatch({
                 type: 'addError',
@@ -88,6 +95,8 @@ export const AuthProvider =({children}) =>{
     const signIn= async ({email,password})=>{
         try{
             const {data} = await userApi.post('/login',{email,password});
+            console.log(data.user);
+            setUser(data.user);
             dispatch({
                 type: 'signUp',
                 payload :{
@@ -141,6 +150,8 @@ export const AuthProvider =({children}) =>{
                 logOut,
                 removeError,
                 getPosts,
+                checkToken,
+                getUser,
                 posts
             }}        
         >
