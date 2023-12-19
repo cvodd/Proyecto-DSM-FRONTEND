@@ -6,10 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileScreen = () => {
  
-  const { logOut, getUser } = useContext(AuthContext);
-  const [user, setUserData] = useState(null);
+  const { logOut, user } = useContext(AuthContext);
+  
  
-useEffect(() => {setUserData(getUser);
+useEffect(() => {
   console.log(user);});
 
  
@@ -31,13 +31,14 @@ useEffect(() => {setUserData(getUser);
   return (
     
     <View>
-         <View style={styles.container}>
+      <Text style={styles.title}>Perfil</Text>
+        
       <Text style={styles.label}>Nombre: {user.name}</Text>
       <Text style={styles.label}>Apellido: {user.lastName}</Text>
       <Text style={styles.label}>Nombre de usuario: {user.userName}</Text>
       <Text style={styles.label}>Fecha de nacimiento: {user.birthDate}</Text>
       <Text style={styles.label}>Correo electrónico: {user.email}</Text>
-    </View>
+    
         <TouchableOpacity
             onPress={logOut}
             style={styles.button}

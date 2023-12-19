@@ -8,7 +8,7 @@ export const HomeScreen = () => {
     const { token, getPosts, posts, logOut } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState(false);
 
-    console.log(token);
+    console.log("toen ",token);
     const onRefresh = async () => {
         setRefreshing(true);
         // Realizar la solicitud para obtener nuevos datos

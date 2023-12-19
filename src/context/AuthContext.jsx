@@ -23,7 +23,7 @@ export const AuthProvider =({children}) =>{
 
     const [state, dispatch] =useReducer(authReducer, authInitalState);
     const [posts, setPosts] = useState([]);
-    const [user,setUser] = useState(null);
+ 
     
     useEffect(() => {
         checkToken();
@@ -31,10 +31,7 @@ export const AuthProvider =({children}) =>{
     useEffect(() => {
         getPosts();
     }, []);
-     const getUser = () => {
-        console.log(user);
-        return user;
-     };
+    
     const checkToken = async () => {
         const token = await AsyncStorage.getItem('token');
         // console.log(token);
@@ -84,7 +81,7 @@ export const AuthProvider =({children}) =>{
 
         } catch (error) {
         ;
-            console.log(error.response.data.errors)
+            console.log("error",error.response.data.errors)
             dispatch({
                 type: 'addError',
                 payload: error.response.data.errors
@@ -96,7 +93,6 @@ export const AuthProvider =({children}) =>{
         try{
             const {data} = await userApi.post('/login',{email,password});
             console.log(data.user);
-            setUser(data.user);
             dispatch({
                 type: 'signUp',
                 payload :{
@@ -151,7 +147,6 @@ export const AuthProvider =({children}) =>{
                 removeError,
                 getPosts,
                 checkToken,
-                getUser,
                 posts
             }}        
         >
